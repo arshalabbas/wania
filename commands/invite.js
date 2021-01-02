@@ -8,6 +8,7 @@ module.exports = {
     const server = "https://discord.gg/p5MkwJVwUJ";
     const inviteEmbed = new MessageEmbed()
     .setTitle("Invite me!")
+    .setURL(invite)
     .addField("Supports Us",`[Invite Me](${invite})\n[Join Support Server](${server})`)
     .setColor(16747679)
     .setDescription("I hope I can be entertain to you in your server!")
