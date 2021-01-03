@@ -80,6 +80,7 @@ module.exports = {
         .setTitle(song.title)
         .setURL(song.url)
         .setColor(16747679)
+        .setDescription(`Volume: ${queue.volume}%`)
         .setThumbnail(song.image)
         .setFooter(`Views: ${song.views} | Published on : ${song.uploaded}`, 'https://i.ibb.co/nBgzys7/hd-youtube-logo-png-transparent-background-20.png');
       var playingMessage = await queue.textChannel.send(playingEmbed);
@@ -119,11 +120,27 @@ module.exports = {
           if (queue.playing) {
             queue.playing = !queue.playing;
             queue.connection.dispatcher.pause(true);
-            queue.textChannel.send(`${user} ⏸ paused the music.`).catch(console.error);
+            const pauseEmbed = new MessageEmbed()
+            .setAuthor(`⏸️ Player paused`, 'https://media.giphy.com/media/TRX3CRsnjdwDu4GRh3/giphy.gif')
+            .setTitle(song.title)
+            .setURL(song.url)
+            .setColor(16747679)
+            .setDescription(`Volume: ${queue.volume}%`)
+            .setThumbnail(song.image)
+            .setFooter(`Views: ${song.views} | Published on : ${song.uploaded}`, 'https://i.ibb.co/nBgzys7/hd-youtube-logo-png-transparent-background-20.png');
+          playingMessage.edit(pauseEmbed);
           } else {
             queue.playing = !queue.playing;
             queue.connection.dispatcher.resume();
-            queue.textChannel.send(`${user} ▶ resumed the music!`).catch(console.error);
+            const resumeEmbed = new MessageEmbed()
+            .setAuthor(`🎶Now Playing`, 'https://media.giphy.com/media/TRX3CRsnjdwDu4GRh3/giphy.gif')
+            .setTitle(song.title)
+            .setURL(song.url)
+            .setColor(16747679)
+            .setDescription(`Volume: ${queue.volume}%`)
+            .setThumbnail(song.image)
+            .setFooter(`Views: ${song.views} | Published on : ${song.uploaded}`, 'https://i.ibb.co/nBgzys7/hd-youtube-logo-png-transparent-background-20.png');
+          playingMessage.edit(resumeEmbed);
           }
           break;
 
@@ -133,11 +150,27 @@ module.exports = {
           if (queue.volume <= 0) {
             queue.volume = 100;
             queue.connection.dispatcher.setVolumeLogarithmic(100 / 100);
-            queue.textChannel.send(`${user} 🔊 unmuted the music!`).catch(console.error);
+            const unmuteEmbed = new MessageEmbed()
+            .setAuthor(`🎶Now Playing`, 'https://media.giphy.com/media/TRX3CRsnjdwDu4GRh3/giphy.gif')
+            .setTitle(song.title)
+            .setURL(song.url)
+            .setColor(16747679)
+            .setDescription(`Volume: ${queue.volume}%`)
+            .setThumbnail(song.image)
+            .setFooter(`Views: ${song.views} | Published on : ${song.uploaded}`, 'https://i.ibb.co/nBgzys7/hd-youtube-logo-png-transparent-background-20.png');
+          playingMessage.edit(unmuteEmbed);
           } else {
             queue.volume = 0;
             queue.connection.dispatcher.setVolumeLogarithmic(0);
-            queue.textChannel.send(`${user} 🔇 muted the music!`).catch(console.error);
+            const muteEmbed = new MessageEmbed()
+            .setAuthor(`🎶Now Playing`, 'https://media.giphy.com/media/TRX3CRsnjdwDu4GRh3/giphy.gif')
+            .setTitle(song.title)
+            .setURL(song.url)
+            .setColor(16747679)
+            .setDescription(`Volume: 🔇`)
+            .setThumbnail(song.image)
+            .setFooter(`Views: ${song.views} | Published on : ${song.uploaded}`, 'https://i.ibb.co/nBgzys7/hd-youtube-logo-png-transparent-background-20.png');
+          playingMessage.edit(muteEmbed);
           }
           break;
 
@@ -147,9 +180,15 @@ module.exports = {
           if (queue.volume - 10 <= 0) queue.volume = 0;
           else queue.volume = queue.volume - 10;
           queue.connection.dispatcher.setVolumeLogarithmic(queue.volume / 100);
-          queue.textChannel
-            .send(`${user} 🔉 decreased the volume, the volume is now ${queue.volume}%`)
-            .catch(console.error);
+            const upEmbed = new MessageEmbed()
+            .setAuthor(`🎶Now Playing`, 'https://media.giphy.com/media/TRX3CRsnjdwDu4GRh3/giphy.gif')
+            .setTitle(song.title)
+            .setURL(song.url)
+            .setColor(16747679)
+            .setDescription(`Volume: ${queue.volume}%`)
+            .setThumbnail(song.image)
+            .setFooter(`Views: ${song.views} | Published on : ${song.uploaded}`, 'https://i.ibb.co/nBgzys7/hd-youtube-logo-png-transparent-background-20.png');
+          playingMessage.edit(upEmbed);
           break;
 
         case "🔊":
@@ -158,9 +197,15 @@ module.exports = {
           if (queue.volume + 10 >= 100) queue.volume = 100;
           else queue.volume = queue.volume + 10;
           queue.connection.dispatcher.setVolumeLogarithmic(queue.volume / 100);
-          queue.textChannel
-            .send(`${user} 🔊 increased the volume, the volume is now ${queue.volume}%`)
-            .catch(console.error);
+          const downEmbed = new MessageEmbed()
+            .setAuthor(`🎶Now Playing`, 'https://media.giphy.com/media/TRX3CRsnjdwDu4GRh3/giphy.gif')
+            .setTitle(song.title)
+            .setURL(song.url)
+            .setColor(16747679)
+            .setDescription(`Volume: ${queue.volume}%`)
+            .setThumbnail(song.image)
+            .setFooter(`Views: ${song.views} | Published on : ${song.uploaded}`, 'https://i.ibb.co/nBgzys7/hd-youtube-logo-png-transparent-background-20.png');
+          playingMessage.edit(downEmbed);
           break;
 
         case "🔁":
