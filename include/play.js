@@ -20,7 +20,9 @@ module.exports = {
     const queue = message.client.queue.get(message.guild.id);
 
     if (!song) {
-      queue.textChannel.send("❌ Music queue ended.").catch(console.error);
+      queue.textChannel.send("❌ Music queue ended.")
+      .then(msg => msg.delete({ timeout: 5000 }))
+      .catch(console.error);
       return message.client.queue.delete(message.guild.id);
     }
 
