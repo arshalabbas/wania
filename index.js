@@ -4,8 +4,8 @@
 const { Client, Collection } = require("discord.js");
 const { readdirSync } = require("fs");
 const { join } = require("path");
-const { TOKEN, PREFIX } = require("./util/EvobotUtil");
-
+const { TOKEN, PREFIX, STAT_CHANNEL } = require("./util/EvobotUtil");
+const { stat } = require('./util/liveStat');
 const client = new Client({ disableMentions: "everyone" });
 
 client.login(TOKEN);
@@ -21,6 +21,13 @@ const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 client.on("ready", () => {
   console.log(`${client.user.username} ready!`);
   client.user.setActivity(`${PREFIX}help and ${PREFIX}play`, { type: "STREAMING" });
+  const statChannel = client.channels.cache.get(STAT_CHANNEL);
+  statChannel.bulkDelete(5, true);
+  statChannel.send("Loading...").then(msg => {
+    stat(client, result => {
+      msg.edit(result);
+    });
+  });
 });
 client.on("warn", (info) => console.log(info));
 client.on("error", console.error);
